@@ -1,0 +1,93 @@
+<div id="face" class="face">
+  <div class="eye">
+    <div class="parpado"></div>
+    <span class="eye_ball"></span>
+  </div>
+  <div class="eye">
+    <div class="parpado"></div>
+    <span class="eye_ball"></span>
+  </div>
+</div>
+
+<style>
+  .face {
+    display: flex;
+    min-height: 100vh;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .eye {
+    border-radius: 50%;
+    border: 1px solid black;
+    height: 120px;
+    width: 200px;
+    display: inline-block;
+    margin: 10px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .eye_ball {
+    content: '';
+    display: block;
+    width: 20px;
+    height: 20px;
+    background-color: black;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 20px solid #3490da;
+    z-index: -1;
+  }
+
+  .parpado {
+    height: 20%;
+    width: 100%;
+    background-color: beige;
+    z-index: 20;
+    border-bottom: 2px solid burlywood;
+  }
+</style>
+
+<script>
+  var face = document.getElementById('face');
+  var eyes = document.getElementsByClassName('eye');
+  var eyeBalls = document.getElementsByClassName('eye_ball');
+  var parpados = document.getElementsByClassName('parpado');
+
+  function parpadear(eye) {
+    eye.style.transition = "all ease 0.2s";
+    eye.style.height = "100%";
+
+    setTimeout(function(){
+      eye.style.transition = "all ease 0.5s";
+      eye.style.height = "20%";
+    }, 500);
+  }
+
+  for (var i=0; i < 2; i++) {
+    eyes[i].addEventListener('click', function(){
+      parpadear(this.getElementsByClassName('parpado')[0]);
+    })
+  }
+
+  face.addEventListener('mousemove', function(event){
+    const x = event.clientX * 100 / this.offsetWidth + "%";
+    const y = event.clientY * 100 / this.offsetHeight + "%";
+
+    for (var i = 0; i < 2; i++) {
+      eyeBalls[i].style.left = x;
+      eyeBalls[i].style.top = y;
+      eyeBalls[i].style.transform = `translate(-${x}, -${y})`;
+    }
+  });
+
+  setInterval(function(){
+    for (var i=0; i < 2; i++) {
+      parpadear(parpados[i]);
+    }
+  }, 5000);
+</script>
